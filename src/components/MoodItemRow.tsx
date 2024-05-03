@@ -44,11 +44,12 @@ const styles = StyleSheet.create({
   },
   moodDescription: {
     color: theme.colorPurple,
-    fontWeight: 'bold',
     fontSize: 18,
+    fontFamily: theme.fontFamilyBold,
   },
   moodDate: {
     color: theme.colorLavander,
     textAlign: 'center',
+    fontFamily: theme.fontFamilyLight,
   },
 });
