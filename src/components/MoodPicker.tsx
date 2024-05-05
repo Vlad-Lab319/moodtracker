@@ -1,8 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Pressable, StyleSheet, Text, View, Image } from 'react-native';
 import { MoodOptionType } from '../../types';
 import { moodOptions } from '../data/moodOptions';
 import { theme } from '../../theme';
+import Reanimated, {
+  useAnimatedStyle,
+  withTiming,
+} from 'react-native-reanimated';
+
+const ReanimatedPressable = Reanimated.createAnimatedComponent(Pressable);
 
 const imageSrc = require('../../assets/images/butterflies.png');
 
@@ -12,7 +18,15 @@ type MoodPickerProps = {
 
 export const MoodPicker: React.FC<MoodPickerProps> = ({ handleSelectMood }) => {
   const [selectedMood, setSelectedMood] = React.useState<MoodOptionType>();
-  const [isSelected, setSelected] = useState(false);
+  const [isSelected, setSelected] = React.useState(false);
+
+  const buttonStyle = useAnimatedStyle(
+    () => ({
+      opacity: selectedMood ? withTiming(1) : withTiming(0.5),
+      transform: [{ scale: selectedMood ? withTiming(1) : withTiming(0.7) }],
+    }),
+    [selectedMood],
+  );
 
   const handleSelect = React.useCallback(() => {
     if (selectedMood) {
@@ -58,9 +72,11 @@ export const MoodPicker: React.FC<MoodPickerProps> = ({ handleSelectMood }) => {
           </View>
         ))}
       </View>
-      <Pressable style={styles.buttonPick} onPress={handleSelect}>
+      <ReanimatedPressable
+        style={[styles.buttonPick, buttonStyle]}
+        onPress={handleSelect}>
         <Text style={styles.buttonPickText}>Choose</Text>
-      </Pressable>
+      </ReanimatedPressable>
     </View>
   );
 };
@@ -71,7 +87,6 @@ const styles = StyleSheet.create({
     padding: 10,
     height: 250,
     flexDirection: 'column',
-    // justifyContent: 'center',
     justifyContent: 'space-between',
     alignItems: 'center',
     borderWidth: 2,
@@ -92,7 +107,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     margin: 5,
     padding: 5,
-    // alignSelf: 'center',
   },
   moodItem: {
     margin: 5,

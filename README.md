@@ -85,5 +85,5 @@ export PATH=$PATH:$ANDROID_HOME/tools
 
 # Run studio:
 
-~/../../usr/local/android-studio/bin
+cd ~/../../usr/local/android-studio/bin
 ./studio.sh
